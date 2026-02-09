@@ -1,176 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KATHI SHANMUKHA SIRI CHANDANA - Portfolio</title>
+    <title>Siri Chandana | Game Developer Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        softWhite: '#F8FAFC',
+                        mediumGrey: '#64748B',
+                        darkSlate: '#1E293B',
+                        accentGrey: '#94A3B8'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'soft': '20px 20px 60px #e2e8f0, -20px -20px 60px #ffffff',
+                        'soft-inner': 'inset 6px 6px 12px #e2e8f0, inset -6px -6px 12px #ffffff',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F8FAFC;
+            background-image:
+                linear-gradient(rgba(100, 116, 139, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(100, 116, 139, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            scroll-behavior: smooth;
+        }
+
+        .soft-card {
+            background: rgba(248, 250, 252, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 20px 20px 60px #e2e8f0, -20px -20px 60px #ffffff;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        .soft-card-hover:hover {
+            box-shadow: 10px 10px 30px #e2e8f0, -10px -10px 30px #ffffff;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .glass-nav {
+            background: rgba(248, 250, 252, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #1E293B 0%, #64748B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #three-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F8FAFC;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+    </style>
 </head>
-<body>
+
+<body class="font-sans text-darkSlate overflow-x-hidden custom-scrollbar">
+
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#hero" class="logo">SIRI CHANDANA</a>
-            <button class="menu-toggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="font-display font-bold text-xl tracking-tight text-darkSlate">SIRI.DEV</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="text-sm font-semibold hover:text-mediumGrey transition-colors">About</a>
+                <a href="#experience"
+                    class="text-sm font-semibold hover:text-mediumGrey transition-colors">Experience</a>
+                <a href="#skills" class="text-sm font-semibold hover:text-mediumGrey transition-colors">Skills</a>
+                <a href="#projects" class="text-sm font-semibold hover:text-mediumGrey transition-colors">Projects</a>
+                <a href="#contact" class="text-sm font-semibold hover:text-mediumGrey transition-colors">Contact</a>
+            </div>
+            <button class="md:hidden text-darkSlate" id="menu-btn">
+                <i class="fas fa-bars text-xl"></i>
             </button>
-            <ul class="nav-menu">
-                <li><a href="#about">About</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#certifications">Certifications</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#leadership">Leadership</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
         </div>
     </nav>
 
+    <!-- Mobile Menu -->
+    <div id="mobile-menu"
+        class="fixed inset-0 z-40 bg-softWhite transform translate-x-full transition-transform duration-300 md:hidden flex flex-col items-center justify-center space-y-8 font-display text-2xl font-bold">
+        <a href="#about" class="mobile-link">About</a>
+        <a href="#experience" class="mobile-link">Experience</a>
+        <a href="#skills" class="mobile-link">Skills</a>
+        <a href="#projects" class="mobile-link">Projects</a>
+        <a href="#contact" class="mobile-link">Contact</a>
+        <button id="close-menu" class="absolute top-6 right-6">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+    </div>
+
     <!-- Hero Section -->
-    <section id="hero" class="hero">
-        <div class="hero-bg">
-            <div class="gradient-orb orb-1"></div>
-            <div class="gradient-orb orb-2"></div>
-            <div class="gradient-orb orb-3"></div>
-        </div>
-        <div class="hero-content">
-            <h1 class="hero-title">
-                <span class="typing-text">KATHI SHANMUKHA SIRI CHANDANA</span>
+    <header class="relative min-h-screen flex items-center justify-center pt-20 px-6">
+        <canvas id="three-canvas"></canvas>
+        <div class="relative z-10 text-center max-w-4xl">
+            <span
+                class="inline-block px-4 py-1.5 mb-6 text-xs font-bold uppercase tracking-widest text-mediumGrey bg-white rounded-full shadow-sm">Available
+                for Collaboration</span>
+            <h1 class="font-display text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                Crafting <span class="gradient-text">Immersive Worlds</span> <br>
+                Through Code.
             </h1>
-            <p class="hero-tagline">
-                <span class="gradient-text">Game Developer</span> • 
-                <span class="gradient-text">UI/UX Designer</span> • 
-                <span class="gradient-text">Game Tester</span>
+            <p class="text-lg md:text-xl text-mediumGrey mb-10 max-w-2xl mx-auto font-medium">
+                Hello, I'm <span class="text-darkSlate font-bold">KATHI SIRI CHANDANA</span>. A Game Developer
+                specialized in building scalable mechanics and intuitive digital experiences.
             </p>
-            <p class="hero-description">Crafting intuitive digital experiences with user-centric design principles and cutting-edge development practices.</p>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">
-                    <i class="fas fa-eye"></i>
-                    <span>View Work</span>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                <a href="#projects"
+                    class="px-8 py-4 bg-darkSlate text-white rounded-2xl font-bold shadow-lg shadow-slate-200 hover:bg-opacity-90 transition-all flex items-center gap-2">
+                    <i class="fas fa-gamepad"></i> View My Work
                 </a>
-                <a href="#contact" class="btn btn-secondary">
-                    <i class="fas fa-envelope"></i>
-                    <span>Get In Touch</span>
+                <a href="#contact"
+                    class="px-8 py-4 soft-card bg-white text-darkSlate rounded-2xl font-bold hover:shadow-md transition-all">
+                    Get In Touch
                 </a>
             </div>
         </div>
-        <div class="scroll-indicator">
-            <div class="scroll-arrow">
-                <i class="fas fa-chevron-down"></i>
-            </div>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-mediumGrey opacity-40 animate-bounce">
+            <i class="fas fa-chevron-down text-2xl"></i>
         </div>
-    </section>
+    </header>
 
     <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                    <div class="profile-image">
-                        <img src="profile.jpg" alt="KATHI SHANMUKHA SIRI CHANDANA" class="profile-photo">
-                        <div class="profile-glow"></div>
-                </div>
-                <div class="about-text">
-                    <h3>Hello, I'm Siri Chandana!</h3>
-                    <p>Creative Game Developer and UI/UX Designer with hands-on experience in Unity Engine, Unreal Engine, and full-stack development using Flask and React. Strong foundation in C, C++, C#, and Java, with proven ability to build interactive gameplay systems and intuitive user interfaces.</p>
-                    
-                    <div class="contact-grid">
-                        <a href="mailto:kathisiri0022@gmail.com" class="contact-card">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-info">
-                                <span class="contact-label">Email</span>
-                                <span class="contact-value">kathisiri0022@gmail.com</span>
-                            </div>
-                        </a>
-                        <a href="https://www.linkedin.com/in/siri0022/" target="_blank" class="contact-card">
-                            <div class="contact-icon">
-                                <i class="fab fa-linkedin"></i>
-                            </div>
-                            <div class="contact-info">
-                                <span class="contact-label">LinkedIn</span>
-                                <span class="contact-value">Connect with me</span>
-                            </div>
-                        </a>
+    <section id="about" class="py-24 px-6 bg-softWhite">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="relative">
+                    <div class="soft-card p-4 aspect-square overflow-hidden relative z-10">
+                        <img src="img.jpeg" alt="Profile"
+                            class="w-full h-full object-cover rounded-2xl grayscale hover:grayscale-0 transition-all duration-700">
                     </div>
-                    
-
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-white rounded-3xl shadow-soft z-0 floating">
+                    </div>
+                    <div class="absolute -top-6 -left-6 w-24 h-24 bg-mediumGrey bg-opacity-10 rounded-full z-0"></div>
+                </div>
+                <div>
+                    <h2 class="font-display text-4xl font-bold mb-8">Passionate About <br><span
+                            class="text-mediumGrey">Game Systems.</span></h2>
+                    <p class="text-mediumGrey leading-relaxed mb-6 text-lg">
+                        Creative Game Developer and UI/UX Designer with hands-on experience in Unity Engine, Unreal
+                        Engine, and full-stack development. I build interactive gameplay systems and intuitive
+                        interfaces that bridge the gap between imagination and reality.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 pt-6">
+                        <div class="soft-card p-6">
+                            <h3 class="font-display text-2xl font-bold text-darkSlate mb-2">4+</h3>
+                            <p class="text-xs font-bold uppercase tracking-wider text-mediumGrey">Languages</p>
+                        </div>
+                        <div class="soft-card p-6">
+                            <h3 class="font-display text-2xl font-bold text-darkSlate mb-2">5+</h3>
+                            <p class="text-xs font-bold uppercase tracking-wider text-mediumGrey">Project Areas</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Education Section -->
-    <section id="education" class="education-section">
-        <div class="container">
-            <h2 class="section-title">Education</h2>
-            <div class="education-grid">
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="institution-name">
-                                <i class="fas fa-graduation-cap"></i>
-                                <h3>K L University</h3>
-                            </div>
-                        </div>
-                        <div class="flip-card-back">
-                            <div class="education-details">
-                                <h4>K L University</h4>
-                                <p class="degree">Bachelor of Computer Science</p>
-                                <div class="education-meta">
-                                    <span class="years">2023-2027</span>
-                                    <span class="grade">CGPA:8.1 </span>
-                                </div>
-                            </div>
-                        </div>
+    <!-- Experience Section -->
+    <section id="experience" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-4xl font-bold mb-4">Professional Roadmap</h2>
+                <div class="h-1 w-20 bg-darkSlate mx-auto rounded-full"></div>
+            </div>
+
+            <div class="space-y-8 max-w-4xl mx-auto">
+                <!-- Exp 1 -->
+                <div class="soft-card p-8 flex flex-col md:flex-row gap-6 md:items-center">
+                    <div
+                        class="bg-white p-4 rounded-2xl shadow-soft-inner w-16 h-16 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-briefcase text-2xl text-darkSlate"></i>
                     </div>
-                </div>
-                
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="institution-name">
-                                <i class="fas fa-school"></i>
-                                <h3>Sri Chaitanya junior college</h3>
-                            </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-display text-xl font-bold text-darkSlate">Game Developer & UI/UX Designer
+                            </h3>
+                            <span class="text-xs font-bold bg-slate-100 px-3 py-1 rounded-full text-mediumGrey">2025 -
+                                Present</span>
                         </div>
-                        <div class="flip-card-back">
-                            <div class="education-details">
-                                <h4>Sri Chaitanya junior college</h4>
-                                <p class="degree">Board of Intermediate Education, Andhra Pradesh</p>
-                                <div class="education-meta">
-                                    <span class="years">2021-2023</span>
-                                    <span class="grade">Percentage: 83%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="institution-name">
-                                <i class="fas fa-book"></i>
-                                <h3>Sarada school</h3>
-                            </div>
-                        </div>
-                        <div class="flip-card-back">
-                            <div class="education-details">
-                                <h4>Sarada school</h4>
-                                <p class="degree">Board of Secondary Education</p>
-                                <div class="education-meta">
-                                    <span class="years">2020-2021</span>
-                                    <span class="grade">Percentage: 99.6%</span>
-                                </div>
-                            </div>
-                        </div>
+                        <p class="font-bold text-mediumGrey mb-4 text-sm">CultivateU</p>
+                        <p class="text-sm text-mediumGrey leading-relaxed">
+                            Developing C# scripts for core mechanics and behavior. Designing intuitive UI/UX for web and
+                            mobile platforms with specialized game logic integration.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -178,176 +269,67 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title">Skills &amp; Expertise</h2>
-            <div class="skills-grid">
-                <div class="skill-card" data-category="DevOps">
-                    <div class="skill-header">
-                        <div class="skill-icon">
-                            <i class="fas fa-infinity"></i>
-                        </div>
-                        <h3>Game Development</h3>
-                    </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Unity Engine</span>
-                        <span class="skill-tag"> Unreal Engine</span>
-                        <span class="skill-tag">Blender</span>
-                        <span class="skill-tag">Euphoria Engine</span>
-                    </div>
-                    <div class="skill-overlay"></div>
-                </div>
-                
-                <div class="skill-card" data-category="AI ML">
-                    <div class="skill-header">
-                        <div class="skill-icon">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <h3>Web & Software:</h3>
-                    </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Flask</span>
-                        <span class="skill-tag">React</span>
-                        <span class="skill-tag">Front-End / UI design</span>
-                        <span class="skill-tag">SQL </span>
-                        <span class="skill-tag">REST APIs</span>
-                    </div>
-                    <div class="skill-overlay"></div>
-                </div>
-                
-                <div class="skill-card" data-category="development">
-                    <div class="skill-header">
-                        <div class="skill-icon">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3>Programming</h3>
-                    </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">C language</span>
-                        <span class="skill-tag">C++ language</span>
-                        <span class="skill-tag">C# language</span>
-                        <span class="skill-tag">Java (Basics)</span>
-                    </div>
-                    <div class="skill-overlay"></div>
+    <section id="skills" class="py-24 px-6 bg-slate-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-12">
+                <div>
+                    <h2 class="font-display text-4xl font-bold mb-6">Arsenals & Tools.</h2>
+                    <p class="text-mediumGrey mb-8 leading-relaxed">The technology stack I utilize to bring interactive
+                        worlds to life, ranging from engine-level coding to front-end artistry.</p>
                 </div>
 
-                <div class="skill-card" data-category="soft">
-                    <div class="skill-header">
-                        <div class="skill-icon">
-                            <i class="fas fa-users"></i>
+                <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="soft-card p-8 soft-card-hover">
+                        <i class="fas fa-cube text-3xl mb-4 text-mediumGrey"></i>
+                        <h3 class="font-display text-xl font-bold mb-4">Engines</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">Unity3D</span>
+                            <span class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">Unreal
+                                Engine</span>
+                            <span
+                                class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">Euphoria</span>
                         </div>
-                        <h3>Tools & Platforms</h3>
                     </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Git</span>
-                        <span class="skill-tag">GitHub</span>
-                        <span class="skill-tag">CI/CD pipelines</span>
-                        <span class="skill-tag">Scrum Fundamentals</span>
-                    </div>
-                    <div class="skill-overlay"></div>
-                </div>
-                
-                <div class="skill-card" data-category="soft">
-                    <div class="skill-header">
-                        <div class="skill-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3>Soft Skills</h3>
-                    </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Communication</span>
-                        <span class="skill-tag">Team Collaboration</span>
-                        <span class="skill-tag">Fast Learner</span>
-                    </div>
-                    <div class="skill-overlay"></div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Certifications Section -->
-    <section id="certifications" class="certifications">
-        <div class="container">
-            <h2 class="section-title">Certifications</h2>
-            <div class="certifications-grid">
-                <div class="cert-badge">
-                    <div class="cert-icon">
-                        <i class="fab fa-microsoft"></i>
+                    <div class="soft-card p-8 soft-card-hover">
+                        <i class="fas fa-code text-3xl mb-4 text-mediumGrey"></i>
+                        <h3 class="font-display text-xl font-bold mb-4">Languages</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">C#</span>
+                            <span
+                                class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">C++</span>
+                            <span
+                                class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">Python</span>
+                            <span
+                                class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">JavaScript</span>
+                        </div>
                     </div>
-                    <h4>Aventrix Solutions Pvt. Ltd </h4>
-                    <p>AVENTRIX Certification</p>
-                </div>
-                
-                <div class="cert-badge">
-                    <div class="cert-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h4>Kodacy</h4>
-                    <p>Artificial Intelligence & Machine Learning Certification</p>
-                </div>
-                
-                <div class="cert-badge">
-                    <div class="cert-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h4>UiPath</h4>
-                    <p>UiPath Academic Alliance - Student Automation Developer Associate Certification</p>
-                </div>
-                
-                <div class="cert-badge">
-                    <div class="cert-icon">
-                        <i class="fab fa-salesforce"></i>
-                    </div>
-                    <h4>Salesforce</h4>
-                    <p>Salesforce AI Associate</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            
-            <div class="project-showcase">
-                <div class="project-card featured-project">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div class="project-status">Featured</div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Greenshield</h3>
-                        <p class="project-description">Designed and implemented complex systems such as advanced AI/ability mechanics to improve gameplay balance, challenge scaling, and overall replayability.</p>
-                        
-                        <div class="project-highlights">
-                            <h4>Key Achievements:</h4>
-                            <ul>
-                                <li> Worked with Unity/Unreal, C, Blueprints, Git to build core game features and systems.</li>
-                                <li>Developed complex modules like AI pathfinding, procedural levels, inventory multiplayer components.</li>
-                                <li>Optimized performance by reducing load times, improving FPS stability, and enhancing overall gameplay smoothness.</li>
-                                <li>Designed intuitive UI/UX, refined core game loops, and collaborated with art/design teams using Agile/Scrum.</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="tech-stack">
-                            <span class="tech-tag">Unity</span>
-                            <span class="tech-tag">Blender</span>
-                            <span class="tech-tag">Miximo</span>
-                            <span class="tech-tag">VS Code</span>
+                    <div class="soft-card p-8 soft-card-hover">
+                        <i class="fas fa-layer-group text-3xl mb-4 text-mediumGrey"></i>
+                        <h3 class="font-display text-xl font-bold mb-4">Design</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">Blender</span>
+                            <span
+                                class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">UI/UX</span>
+                            <span
+                                class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">Mixamo</span>
                         </div>
                     </div>
-                    <div class="project-glow"></div>
-                </div>
-                
-                <div class="additional-projects">
-                    <div class="project-card mini-project">
-                        <div class="project-content">
-                            <h4>Flutter UI Development</h4>
-                            <p>Developed responsive UIs using Flutter at Mediatize Tech</p>
-                            <span class="project-timeline">Dec 2024 - Apr 2025</span>
+
+                    <div class="soft-card p-8 soft-card-hover">
+                        <i class="fas fa-terminal text-3xl mb-4 text-mediumGrey"></i>
+                        <h3 class="font-display text-xl font-bold mb-4">Infrastructure</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">Git/GitHub</span>
+                            <span
+                                class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">SQL</span>
+                            <span class="px-3 py-1 text-xs font-bold rounded-lg shadow-soft-inner bg-softWhite">REST
+                                APIs</span>
                         </div>
                     </div>
                 </div>
@@ -355,83 +337,112 @@
         </div>
     </section>
 
-    <!-- Professional Experience Section -->
-    <section id="experience" class="experience">
-        <div class="container">
-            <h2 class="section-title">Professional Experience</h2>
-            <div class="timeline">
-                <div class="timeline-item" data-year="2024">
-                    <div class="timeline-marker"></div>
-                    <div class="experience-card">
-                        <div class="experience-header">
-                            <h3>Game Developer & UI/UX Designer</h3>
-                            <span class="company-name">CultivateU</span>
-                            <span class="duration">October 2025 – Present</span>
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-16">
+                <div>
+                    <h2 class="font-display text-4xl font-bold mb-4 tracking-tight">Featured Quest</h2>
+                    <p class="text-mediumGrey font-medium">Flagship projects and game mechanics.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-12">
+                <!-- Featured Project Card -->
+                <div class="soft-card p-8 md:p-12 overflow-hidden group">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="order-2 md:order-1">
+                            <span
+                                class="text-xs font-black uppercase tracking-widest text-mediumGrey opacity-50 mb-4 block">Simulation
+                                / Action</span>
+                            <h3
+                                class="font-display text-4xl font-extrabold mb-6 group-hover:text-mediumGrey transition-colors cursor-default">
+                                Greenshield</h3>
+                            <p class="text-mediumGrey leading-relaxed mb-8 text-lg">
+                                Designed and implemented complex AI/ability mechanics to improve gameplay balance.
+                                Developed modules for pathfinding and procedural level generation using Unity and Unreal
+                                Engine.
+                            </p>
+                            <div class="flex flex-wrap gap-3 mb-8">
+                                <span
+                                    class="text-xs font-bold px-4 py-2 bg-white rounded-xl shadow-soft-inner">Unity</span>
+                                <span
+                                    class="text-xs font-bold px-4 py-2 bg-white rounded-xl shadow-soft-inner">C#</span>
+                                <span
+                                    class="text-xs font-bold px-4 py-2 bg-white rounded-xl shadow-soft-inner">Unreal</span>
+                                <span
+                                    class="text-xs font-bold px-4 py-2 bg-white rounded-xl shadow-soft-inner">Agile</span>
+                            </div>
+                            <button
+                                class="px-6 py-3 border-2 border-darkSlate text-darkSlate rounded-xl font-bold shadow-soft hover:bg-darkSlate hover:text-white transition-all">
+                                Project Overview <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                            </button>
                         </div>
-                        <p>Developed C# scripts to control gameplay mechanics and game object behavior. 
-                            • Designed intuitive UI/UX for games and web/mobile applications. 
-                            • Collaborated with cross-functional teams to implement functional game features.</p>
-                        <div class="experience-tags">
-                            <span class="tag">Flask</span>
-                            <span class="tag">React</span>
-                            <span class="tag">SQL</span>
+                        <div class="order-1 md:order-2">
+                            <div class="soft-card-hover rounded-3xl overflow-hidden shadow-soft bg-white p-4">
+                                <div
+                                    class="w-full h-80 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-300 overflow-hidden">
+                                    <!-- Imagine a game screenshot here -->
+                                    <i class="fas fa-gamepad text-8xl opacity-10"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </section>
 
-    <!-- Leadership & Activities Section -->
-    <section id="leadership" class="leadership">
-        <div class="container">
-            <h2 class="section-title">Leadership &amp; Activities</h2>
-            <div class="leadership-grid">
-                <div class="leadership-card">
-                    <div class="leadership-icon">
-                        <i class="fas fa-crown"></i>
-                    </div>
-                    <div class="leadership-content">
-                        <h3>Samyak - Core Member, Protocol</h3>
-                        <p class="leadership-duration">2024-2025</p>
-                        <p>Core member handling protocol activities, managing ceremonial procedures and maintaining organizational standards for official events.</p>
-                        <div class="leadership-tags">
-                            <span class="tag">Protocol Management</span>
-                            <span class="tag">Communication</span>
-                            <span class="tag">Leadership</span>
+    <!-- Education & Certs -->
+    <section class="py-24 px-6 bg-softWhite">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16">
+                <!-- Education -->
+                <div>
+                    <h2 class="font-display text-3xl font-bold mb-10">Education</h2>
+                    <div class="space-y-6">
+                        <div class="soft-card p-6 soft-card-hover">
+                            <h4 class="font-bold text-darkSlate mb-1">K L University</h4>
+                            <p class="text-sm text-mediumGrey font-semibold mb-2">Bachelor of Computer Science</p>
+                            <div class="flex justify-between text-xs font-bold text-mediumGrey opacity-60 uppercase">
+                                <span>2023 - 2027</span>
+                                <span>CGPA: 8.1</span>
+                            </div>
+                        </div>
+                        <div class="soft-card p-6 soft-card-hover">
+                            <h4 class="font-bold text-darkSlate mb-1">Sri Chaitanya Junior College</h4>
+                            <p class="text-sm text-mediumGrey font-semibold mb-2">Intermediate Board</p>
+                            <div class="flex justify-between text-xs font-bold text-mediumGrey opacity-60 uppercase">
+                                <span>2021 - 2023</span>
+                                <span>83%</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="leadership-card">
-                    <div class="leadership-icon">
-                        <i class="fas fa-handshake"></i>
-                    </div>
-                    <div class="leadership-content">
-                        <h3>Focus - Lead, Reslovance</h3>
-                        <p class="leadership-duration">2023-2025</p>
-                        <p>Led departmental initiatives, coordinated events, and mentored team members.</p>
-                        <div class="leadership-tags">
-                            <span class="tag">Event Management</span>
-                            <span class="tag">Team Coordination</span>
-                            <span class="tag">Leadership</span>
+
+                <!-- Certifications -->
+                <div>
+                    <h2 class="font-display text-3xl font-bold mb-10">Certifications</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="soft-card p-4 text-center soft-card-hover group">
+                            <i
+                                class="fas fa-award text-2xl text-mediumGrey mb-3 group-hover:scale-110 transition-transform"></i>
+                            <p class="text-xs font-bold text-darkSlate leading-tight">Aventrix Solutions</p>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="leadership-card">
-                    <div class="leadership-icon">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="leadership-content">
-                        <h3>Mayavi - Speaker</h3>
-                        <p class="leadership-duration">2024-2025</p>
-                        <p>Delivered talks and guided participants through technical and creative sessions.</p>
-                        <div class="leadership-tags">
-                            <span class="tag">Public Speaking</span>
-                            <span class="tag">Knowledge Sharing</span>
-                            <span class="tag">Presentation Skills</span>
+                        <div class="soft-card p-4 text-center soft-card-hover group">
+                            <i
+                                class="fas fa-brain text-2xl text-mediumGrey mb-3 group-hover:scale-110 transition-transform"></i>
+                            <p class="text-xs font-bold text-darkSlate leading-tight">Kodacy AI/ML</p>
+                        </div>
+                        <div class="soft-card p-4 text-center soft-card-hover group">
+                            <i
+                                class="fas fa-robot text-2xl text-mediumGrey mb-3 group-hover:scale-110 transition-transform"></i>
+                            <p class="text-xs font-bold text-darkSlate leading-tight">UiPath Developer</p>
+                        </div>
+                        <div class="soft-card p-4 text-center soft-card-hover group">
+                            <i
+                                class="fab fa-salesforce text-2xl text-mediumGrey mb-3 group-hover:scale-110 transition-transform"></i>
+                            <p class="text-xs font-bold text-darkSlate leading-tight">Salesforce AI</p>
                         </div>
                     </div>
                 </div>
@@ -440,60 +451,58 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="contact-container">
-            <div class="contact-left">
-                <div class="contact-form-area">
-                    <h2 class="contact-title">Let's talk</h2>
-                    <p class="contact-subtitle">Have a project in mind or want to collaborate? I'd love to hear from you. Drop me a message and let's create something amazing together.</p>
-                    
-                    <form action="https://formspree.io/f/xnjvbzko" method="POST">
-                        <div class="form-group">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" id="name" name="name" class="form-input" placeholder="Your full name" required>
+    <section id="contact" class="py-24 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="soft-card p-8 md:p-16 relative overflow-hidden">
+                <div class="relative z-10">
+                    <div class="text-center mb-12">
+                        <h2 class="font-display text-4xl font-bold mb-4 tracking-tight">Initiate Connection</h2>
+                        <p class="text-mediumGrey">Let's build the next world-class game experience together.</p>
+                    </div>
+
+                    <form action="https://formspree.io/f/xnjvbzko" method="POST" class="grid gap-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label
+                                    class="text-xs font-black uppercase text-mediumGrey tracking-widest pl-2">Name</label>
+                                <input type="text" name="name" placeholder="John Wick" required
+                                    class="w-full px-6 py-4 bg-white rounded-2xl shadow-soft-inner focus:outline-none focus:ring-2 focus:ring-slate-100 transition-all font-medium">
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="text-xs font-black uppercase text-mediumGrey tracking-widest pl-2">Email</label>
+                                <input type="email" name="email" placeholder="john@continental.com" required
+                                    class="w-full px-6 py-4 bg-white rounded-2xl shadow-soft-inner focus:outline-none focus:ring-2 focus:ring-slate-100 transition-all font-medium">
+                            </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" id="email" name="email" class="form-input" placeholder="your.email@example.com" required>
+                        <div class="space-y-2">
+                            <label
+                                class="text-xs font-black uppercase text-mediumGrey tracking-widest pl-2">Objective</label>
+                            <input type="text" name="subject" placeholder="Project Discussion" required
+                                class="w-full px-6 py-4 bg-white rounded-2xl shadow-soft-inner focus:outline-none focus:ring-2 focus:ring-slate-100 transition-all font-medium">
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="subject" class="form-label">Subject</label>
-                            <input type="text" id="subject" name="subject" class="form-input" placeholder="Project discussion" required>
+                        <div class="space-y-2">
+                            <label
+                                class="text-xs font-black uppercase text-mediumGrey tracking-widest pl-2">Transmission
+                                Details</label>
+                            <textarea name="message" rows="4" placeholder="Tell me about your quest..." required
+                                class="w-full px-6 py-4 bg-white rounded-2xl shadow-soft-inner focus:outline-none focus:ring-2 focus:ring-slate-100 transition-all font-medium"></textarea>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea id="message" name="message" class="form-textarea" rows="5" placeholder="Tell me about your project..." required></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary contact-submit">
-                            <i class="fas fa-paper-plane"></i>
-                            <span>Send Message</span>
+                        <button type="submit"
+                            class="w-full py-5 bg-darkSlate text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all uppercase tracking-widest text-sm">
+                            Send Message <i class="fas fa-paper-plane ml-2"></i>
                         </button>
                     </form>
-                    
-                    <div class="contact-social">
-                        <a href="mailto:kathisiri0022@gmail.com" class="social-link" title="Email">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                        <a href="https://linkedin.com/in/siri0022" target="_blank" class="social-link" title="LinkedIn">
+
+                    <div class="flex justify-center gap-8 mt-12">
+                        <a href="https://linkedin.com/in/siri0022" target="_blank"
+                            class="text-mediumGrey hover:text-darkSlate transition-colors text-2xl">
                             <i class="fab fa-linkedin"></i>
                         </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="contact-right">
-                <div class="contact-image-area">
-                    <div class="decorative-circle"><p>Thank You</p></div>
-                    <div class="floating-elements">
-                        <div class="floating-dot dot-1"></div>
-                        <div class="floating-dot dot-2"></div>
-                        <div class="floating-dot dot-3"></div>
-                        <div class="floating-line line-1"></div>
-                        <div class="floating-line line-2"></div>
+                        <a href="mailto:kathisiri0022@gmail.com"
+                            class="text-mediumGrey hover:text-darkSlate transition-colors text-2xl">
+                            <i class="fas fa-envelope"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -501,24 +510,182 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-left">
-                    <p>&copy; 2025 KATHI SHANMUKHA SIRI CHANDANA. All rights reserved.</p>
-                </div>
-                <div class="footer-right">
-                    <div class="footer-links">
-                        <a href="#about">About</a>
-                        <a href="#skills">Skills</a>
-                        <a href="#projects">Projects</a>
-                        <a href="#contact">Contact</a>
-                    </div>
-                </div>
+    <footer class="py-12 px-6 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-sm font-bold text-mediumGrey opacity-60">© 2026 KATHI SIRI CHANDANA. Code is Poetry.</p>
+            <div class="flex gap-6">
+                <a href="#"
+                    class="text-xs font-black uppercase tracking-widest text-darkSlate hover:text-mediumGrey transition-all">Back
+                    to Top</a>
             </div>
         </div>
     </footer>
 
-    <script src="app.js"></script>
+    <!-- Three.js Implementation -->
+    <script>
+        // Setup Three.js scene
+        const canvas = document.getElementById('three-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        // Add soft lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0xffffff, 0.5);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+
+        // Grid Helper for "Editor" look
+        const gridHelper = new THREE.GridHelper(20, 20, 0x64748B, 0x94A3B8);
+        gridHelper.position.y = -2.5;
+        gridHelper.rotation.x = Math.PI * 0.05;
+        gridHelper.material.transparent = true;
+        gridHelper.material.opacity = 0.2;
+        scene.add(gridHelper);
+
+        // Create low poly game elements
+        const geometry1 = new THREE.IcosahedronGeometry(1.5, 0);
+        const material1 = new THREE.MeshPhongMaterial({
+            color: 0x64748B,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.1
+        });
+        const mesh1 = new THREE.Mesh(geometry1, material1);
+        scene.add(mesh1);
+
+        const geometry2 = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+        const material2 = new THREE.MeshPhongMaterial({
+            color: 0x94A3B8,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.05
+        });
+        const mesh2 = new THREE.Mesh(geometry2, material2);
+        mesh2.position.set(-3, 2, -2);
+        scene.add(mesh2);
+
+        const geometry3 = new THREE.OctahedronGeometry(1, 0);
+        const mesh3 = new THREE.Mesh(geometry3, material2);
+        mesh3.position.set(4, -2, -1);
+        scene.add(mesh3);
+
+        // Resize handler
+        function resize() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            mesh1.rotation.x += 0.002;
+            mesh1.rotation.y += 0.003;
+
+            mesh2.rotation.x -= 0.005;
+            mesh2.rotation.z += 0.002;
+
+            mesh3.rotation.y += 0.005;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Cursor interaction for Three.js
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+
+            mesh1.position.x = x * 0.5;
+            mesh1.position.y = -y * 0.5;
+
+            camera.position.x += (x * 2 - camera.position.x) * 0.05;
+            camera.position.y += (-y * 2 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+        });
+    </script>
+
+    <!-- UI Logic -->
+    <script>
+        // Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMenu = document.getElementById('close-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+        });
+
+        const closeFunc = () => {
+            mobileMenu.classList.add('translate-x-full');
+        };
+
+        closeMenu.addEventListener('click', closeFunc);
+        mobileLinks.forEach(link => link.addEventListener('click', closeFunc));
+
+        // Scroll reveal logic
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+            observer.observe(section);
+        });
+
+        // Sticky Nav logic
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('py-2', 'shadow-sm');
+                nav.classList.remove('py-4');
+            } else {
+                nav.classList.remove('py-2', 'shadow-sm');
+                nav.classList.add('py-4');
+            }
+        });
+
+        // Smooth Scroll Fallback/Enhancement
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const navHeight = document.querySelector('nav').offsetHeight;
+                    const targetPosition = targetElement.offsetTop - navHeight;
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>
